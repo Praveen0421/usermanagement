@@ -1,0 +1,63 @@
+<!-- user list section start -->
+<section class="user-list">
+    <!-- start user header -->
+    <header class="user-header d-flex flex-wrap">
+        <h3>Users List</h3>
+        <!-- search-and-addbtn-block start -->
+        <div class="search-and-addbtn-block d-flex flex-wrap">
+            <!-- search-block -->
+            <div class="search-block">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="search-box form-control" [(ngModel)]="searchData" placeholder="search">
+            </div>
+            <!-- add user button -->
+            <button class="addbtn btn btn-primary" routerLink="/userForm" routerLinkActive="router-link-active">Add
+                User</button>
+        </div>
+        <!-- search-and-addbtn-block end -->
+    </header>
+    <!-- end user header -->
+    <div class="user-container d-flex flex-wrap gap-3 align-items-center justify-content-center">
+        <div *ngFor="let data of user | filterpipe:page:searchData ; " class="card user-card" style="width: 18rem;">
+            <img src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=740&t=st=1701890277~exp=1701890877~hmac=0eb19543cdf325463fd53709b755e4d21448d07ba53bd30ad760838937e31f07"
+                class="card-img-top" alt="data.name">
+            <div class="card-body">
+                <p class="card-title user-name">Name : {{data.name}}</p>
+                <p class="card-text">Email : {{data.email}}</p>
+                <p class="card-text">Role : {{data.role}}</p>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-success  action-btn edit-btn" title="Edit" routerLink="/userList/{{data.id}}"
+                        routerLinkActive="router-link-active">Edit</button>
+                    <button class="btn btn-danger  action-btn delete-btn" (click)="delete(data.id)"
+                        title="Delete">Delete</button>
+                </div>
+
+            </div>
+
+
+            <div *ngIf="bool == true && data.id == deleteId" class="pop-up">
+                <div class="card delete-popup" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="card-title" style="color:#fff;font-size:20px">Do you want to delete? <span>"{{data.name}}"</span></p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary" (click)="popup('ok',data.id)">Ok</button>
+                            <button class="btn btn-danger" (click)="popup('cancel',data.id)">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="d-flex align-items-center justify-content-center mt-4">
+    <app-pagination
+    #pagination
+    [collectionSize]="user.length"
+    [pageSize]="10"
+    [firstLastButtons]="true"
+    [maxSize]="2"
+  ></app-pagination>
+</div>
+</section>
+<!-- user list section end -->
